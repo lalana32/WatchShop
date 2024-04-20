@@ -11,7 +11,7 @@ namespace API.Dtos
     {
         public MappingProfile()
         {
-            CreateMap<Product, CreateProductDto>();
+            CreateMap<Product, GetProductDto>();
             CreateMap<CreateProductDto, Product>();
             CreateMap<UpdateProductDto, Product>();
         }

@@ -1,0 +1,65 @@
+.product-card {
+  background-color: #ffffff !important; /* Boja pozadine kartice */
+  border-radius: 8px !important; /* Zaobljeni rubovi kartice */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Blaga sjena */
+  transition: box-shadow 0.3s ease !important; /* Glatka animacija sjene */
+  margin: 10px auto 10px auto;
+}
+
+.product-card:hover {
+  box-shadow: 0 8px 16px rgba(53, 53, 53, 0.927) !important; /* Povećana sjena prilikom hovera */
+}
+
+.product-card-image {
+  object-fit: cover !important; /* Prilagođavanje slike unutar okvira */
+  border-top-left-radius: 8px !important; /* Zaobljeni rubovi slike */
+  border-top-right-radius: 8px !important; /* Zaobljeni rubovi slike */
+}
+
+.product-card-content {
+  padding: 16px !important; /* Razmak unutar kartice */
+}
+
+.product-name {
+  font-size: 1.2rem !important; /* Veličina fonta za naziv proizvoda */
+  font-weight: bold !important; /* Debljina fonta za naziv proizvoda */
+}
+
+.product-description {
+  font-size: 1rem !important; /* Veličina fonta za opis proizvoda */
+  color: #555555 !important; /* Boja teksta opisa proizvoda */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* Broj redova koji želite prikazati */
+  -webkit-line-clamp: 3;
+  /* Visina koja odgovara tri reda teksta */
+  height: 4.5em; /* Ako je visina jednog reda 1.5em */
+  line-height: 1.5em;
+}
+
+.product-card-button {
+  background-color: #4caf50 !important; /* Zelena boja pozadine gumba */
+  color: white !important; /* Boja teksta gumba */
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 10px 20px !important; /* Podešavanje veličine gumba */
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important; /* Glatka animacija boje pozadine */
+  font-weight: bold !important; /* Podešavanje debljine teksta */
+  text-transform: uppercase !important; /* Konvertiranje teksta u velika slova */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; /* Sjena */
+}
+
+.product-card-button:hover {
+  background-color: #388e3c !important; /* Tamnija nijansa zelene boje prilikom hovera */
+}
+
+.product-more-button {
+  color: #4caf50 !important; /* Zelena boja teksta dugmeta "More" */
+  font-weight: bold !important; /* Podešavanje debljine teksta */
+}
+
+.product-more-button:hover {
+  text-decoration: underline !important; /* Podcrtavanje teksta prilikom hovera */
+}

@@ -1,0 +1,11 @@
+body {
+  text-align: center;
+  margin-top: 0;
+}
+
+.App {
+}
+
+.product-card-container {
+  max-width: 60%;
+}

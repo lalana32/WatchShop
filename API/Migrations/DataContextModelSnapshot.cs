@@ -48,6 +48,8 @@ namespace API.Migrations
 
                     b.ToTable("Products");
                 });
+
+            
 #pragma warning restore 612, 618
         }
     }

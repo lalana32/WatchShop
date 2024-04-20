@@ -1,69 +1,75 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using API.Dtos;
-// using API.Models;
-// using AutoMapper;
-// using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using API.Data;
+using API.Dtos;
+using API.Models;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-// namespace API.Controllers
-// {
-//     [ApiController]
-//     [Route("api/[controller]")]
-//     public class ProductsController : ControllerBase
-//     {
+namespace API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductsController : ControllerBase
+    {
         
-//         private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
+        private readonly DataContext _context;
 
-//         public ProductsController(IMapper mapper)
-//         {
-//             _mapper = mapper;
-//         }
+        public ProductsController(IMapper mapper, DataContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
 
-//         [HttpGet]
-//         public ActionResult<List<GetProductDto>> GetProducts()
-//         {
-//             return Ok(products);
-//         }
+        [HttpGet]
+        public async Task<ActionResult<List<GetProductDto>>> GetProducts()
+        {
+            var productList = await _context.Products.ToListAsync();
+            var products = productList.Select(product => _mapper.Map<GetProductDto>(product)).ToList();
+            return products;
+        }
 
-//         [HttpGet("{id}")]
-//         public ActionResult<List<GetProductDto>> GetProductById(int id)
-//         {
-//             var product = products.FirstOrDefault(x => x.Id == id);
-//             return Ok(product);
-//         }
+        // [HttpGet("{id}")]
+        // public ActionResult<List<GetProductDto>> GetProductById(int id)
+        // {
+        //     var product = products.FirstOrDefault(x => x.Id == id);
+        //     return Ok(product);
+        // }
 
-//         [HttpPost]
-//         public ActionResult<List<GetProductDto>> AddProduct(CreateProductDto newProductDto)
-//         {
-//             var product = _mapper.Map<Product>(newProductDto);
-//             products.Add(product);
-//             return Ok(products);
-//         }
+        // [HttpPost]
+        // public ActionResult<List<GetProductDto>> AddProduct(CreateProductDto newProductDto)
+        // {
+        //     var product = _mapper.Map<Product>(newProductDto);
+        //     products.Add(product);
+        //     return Ok(products);
+        // }
 
-//         [HttpPut]
-//         public ActionResult<GetProductDto> UpdateProduct(UpdateProductDto updatedProduct)
-//         {
-//             var selectedProduct = products.FirstOrDefault(x => x.Id == updatedProduct.Id);
-//             if (selectedProduct == null) return NotFound();
+        // [HttpPut]
+        // public ActionResult<GetProductDto> UpdateProduct(UpdateProductDto updatedProduct)
+        // {
+        //     var selectedProduct = products.FirstOrDefault(x => x.Id == updatedProduct.Id);
+        //     if (selectedProduct == null) return NotFound();
 
-//             selectedProduct.Name = updatedProduct.Name;
-//             selectedProduct.Brand = updatedProduct.Brand;
-//             selectedProduct.Sex = updatedProduct.Sex;
+        //     selectedProduct.Name = updatedProduct.Name;
+        //     selectedProduct.Brand = updatedProduct.Brand;
+        //     selectedProduct.Sex = updatedProduct.Sex;
 
-//             return Ok(selectedProduct);
-//         }
+        //     return Ok(selectedProduct);
+        // }
 
-//         [HttpDelete("{id}")] 
-//         public ActionResult DeleteProduct(int id)
-//         {
-//             var selectedProduct = products.FirstOrDefault(x => x.Id == id);
-//             if(selectedProduct == null) return NotFound();
+        // [HttpDelete("{id}")] 
+        // public ActionResult DeleteProduct(int id)
+        // {
+        //     var selectedProduct = products.FirstOrDefault(x => x.Id == id);
+        //     if(selectedProduct == null) return NotFound();
 
-//             products.Remove(selectedProduct);
-//             return Ok();    
+        //     products.Remove(selectedProduct);
+        //     return Ok();    
 
-//         }
-//     }
-// }
+        // }
+    }
+}
