@@ -1,14 +1,15 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using API.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using API.Dtos;
+using API.Models;
 
-// namespace API.Services
-// {
-//     public interface IAuthService
-//     {
-//         Task<AuthService> RegisterUser(RegisterUserDto registerUserDto);
-//         Task<AuthService> LoginUser(LoginUserDto loginUserDto);
-//     }
-// }
+namespace API.Services
+{
+    public interface IAuthService
+    {
+        Task<User> RegisterUser(RegisterUserDto registerUserDto);
+        Task<User> LoginUser(LoginUserDto loginUserDto);
+    }
+}

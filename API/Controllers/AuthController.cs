@@ -1,63 +1,63 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using API.Services;
-// using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using API.Dtos;
+using API.Models;
+using API.Services;
+using Microsoft.AspNetCore.Mvc;
 
-// namespace API.Controllers
-// {
-//     [ApiController]
-//     [Route("api/[controller]")]
-//     public class AuthController : ControllerBase
-//     {
+namespace API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
+    {
 
-//         private readonly IAuthService _authService;
+        private readonly IAuthService _authService;
 
-//         public AuthController(IAuthService authService)
-//         {
-//             _authService = authService;
-//         }
+        public AuthController(IAuthService authService)
+        {
+            _authService = authService;
+        }
 
-//         [HttpPost("register")]
-//         public async Task<IActionResult> Register([FromBody] RegisterRequest model)
-//         {
-//             // Validacija modela
-//             if (!ModelState.IsValid)
-//             {
-//                 return BadRequest(ModelState);
-//             }
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterUserDto registerUserDto)
+        {
+             
+           
+            var result = await _authService.RegisterUser(registerUserDto);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("User registration failed");
+            }
 
-//             // Registracija korisnika
-//             var result = await _authService.RegisterAsync(model);
+           
+        }
 
-//             if (!result.Success)
-//             {
-//                 return BadRequest(result.Message);
-//             }
+        // [HttpPost("login")]
+        // public async Task<IActionResult> Login([FromBody] LoginRequest model)
+        // {
+        //     // Validacija modela
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest(ModelState);
+        //     }
 
-//             return Ok(result.Data);
-//         }
+        //     // Prijava korisnika
+        //     var result = await _authService.LoginAsync(model);
 
-//         [HttpPost("login")]
-//         public async Task<IActionResult> Login([FromBody] LoginRequest model)
-//         {
-//             // Validacija modela
-//             if (!ModelState.IsValid)
-//             {
-//                 return BadRequest(ModelState);
-//             }
+        //     if (!result.Success)
+        //     {
+        //         return Unauthorized(result.Message);
+        //     }
 
-//             // Prijava korisnika
-//             var result = await _authService.LoginAsync(model);
+        //     return Ok(result.Data);
+        // }
+    }   
 
-//             if (!result.Success)
-//             {
-//                 return Unauthorized(result.Message);
-//             }
-
-//             return Ok(result.Data);
-//         }
-//     }   
-
-// }
+}

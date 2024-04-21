@@ -28,16 +28,18 @@ const NavBar = () => {
 
         {
           <div>
-            <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              // onClick={handleMenu}
-              color='inherit'
-            >
-              <AccountCircle sx={{ fontSize: 32 }} />
-            </IconButton>
+            <NavLink to={'/account'}>
+              <IconButton
+                size='large'
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
+                // onClick={handleMenu}
+                color='inherit'
+              >
+                <AccountCircle sx={{ fontSize: 32 }} />
+              </IconButton>
+            </NavLink>
             <Menu
               id='menu-appbar'
               anchorOrigin={{

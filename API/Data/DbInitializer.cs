@@ -11,10 +11,31 @@ namespace API.Data
     public class DbInitializer
     {
 
-        public static void Initialize(DataContext context)
+        public static async Task Initialize(DataContext context, UserManager<User> userManager)
         {
 
+			if(!userManager.Users.Any())
+			{
+				var regularUser = new User
+				{
+					UserName = "stefan",
+					Email = "stefan@example.com"
+				};
 
+				await userManager.CreateAsync(regularUser, "Pa$$w0rd");
+				await userManager.AddToRoleAsync(regularUser, "Member");
+
+				var adminUser = new User
+				{
+					UserName = "admin",
+					Email = "admin@example.com"
+				};
+
+				await userManager.CreateAsync(adminUser, "Pa$$w0rd");
+				await userManager.AddToRolesAsync(adminUser, new[] { "Member", "Admin"});
+
+				
+			}
 
 
             if (context.Products.Any())

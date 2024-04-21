@@ -1,6 +1,7 @@
 using System.Text;
 using API.Data;
 using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,17 +9,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
+
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddCors();
 
+
+builder.Services.AddCors();
+builder.Services.AddIdentityCore<User>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>();
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -73,13 +82,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
+var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 {
-    var services = scope.ServiceProvider;
     try
     {
-        var context = services.GetRequiredService<DataContext>();
-        DbInitializer.Initialize(context);
+        await context.Database.MigrateAsync();
+        await DbInitializer.Initialize(context, userManager);
     }
     catch (Exception ex)
     {

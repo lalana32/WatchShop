@@ -21,9 +21,9 @@ interface Product {
 
 const ProductCard = (product: Product) => {
   return (
-    <Card className='product-card' sx={{ maxWidth: 345, height: 380 }}>
+    <Card className='product-card' sx={{ maxWidth: '20rem', height: '25rem' }}>
       <CardMedia
-        sx={{ height: 200 }}
+        sx={{ height: '12rem' }}
         image={product.pictureUrl}
         className='product-card-image'
       />

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import agent from '../../api/agent';
 import ProductCard from '../../components/productCard/ProductCard';
 import './Catalog.styles.css';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Container, Grid } from '@mui/material';
 
 interface Product {
   id: number;
@@ -44,15 +44,18 @@ const Catalog = () => {
   }
 
   return (
-    <div style={{ padding: 50 }}>
-      <div className='product-card-container'>
-        {products.map((product: Product) => (
-          <div key={product.id} className='product-card-wrapper'>
-            <ProductCard {...product} />
-          </div>
-        ))}
-      </div>
-    </div>
+    <Grid
+      className='product-card-container'
+      container
+      spacing={1}
+      sx={{ padding: '5rem' }}
+    >
+      {products.map((product: Product) => (
+        <Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
+          <ProductCard {...product} />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 
