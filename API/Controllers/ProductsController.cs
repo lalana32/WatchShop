@@ -33,12 +33,13 @@ namespace API.Controllers
             return products;
         }
 
-        // [HttpGet("{id}")]
-        // public ActionResult<List<GetProductDto>> GetProductById(int id)
-        // {
-        //     var product = products.FirstOrDefault(x => x.Id == id);
-        //     return Ok(product);
-        // }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetProductDto>> GetProductById(int id)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var mappedProduct = _mapper.Map<GetProductDto>(product);
+            return mappedProduct!;
+        }
 
         // [HttpPost]
         // public ActionResult<List<GetProductDto>> AddProduct(CreateProductDto newProductDto)

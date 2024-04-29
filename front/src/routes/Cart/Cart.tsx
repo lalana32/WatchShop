@@ -1,7 +1,7 @@
 const Cart = () => {
   return (
     <div>
-      <h1>Cart</h1>
+      <h1>Only logged users can see the cart</h1>
     </div>
   );
 };

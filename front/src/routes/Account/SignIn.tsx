@@ -1,4 +1,4 @@
-import { Copyright, LockOutlined } from '@mui/icons-material';
+import { LockOutlined } from '@mui/icons-material';
 import {
   Container,
   CssBaseline,
@@ -6,14 +6,22 @@ import {
   Avatar,
   Typography,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
   Grid,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+
+import agent, { User } from '../../api/agent';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 const SignIn = () => {
+  const { register, handleSubmit, reset } = useForm<User>();
+
+  const logInSubmit: SubmitHandler<User> = async (data) => {
+    var response = await agent.Account.login(data);
+    console.log(response);
+    reset();
+  };
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -31,26 +39,32 @@ const SignIn = () => {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <Box component='form' noValidate sx={{ mt: 1 }}>
+        <Box
+          component='form'
+          noValidate
+          onSubmit={handleSubmit(logInSubmit)}
+          sx={{ mt: 1 }}
+        >
           <TextField
             margin='normal'
             required
             fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
-            autoComplete='email'
-            autoFocus
+            id='username'
+            label='Username'
+            {...register('username', { required: true, maxLength: 20 })}
           />
           <TextField
             margin='normal'
             required
             fullWidth
-            name='password'
             label='Password'
             type='password'
             id='password'
-            autoComplete='current-password'
+            {...register('password', {
+              required: true,
+              maxLength: 20,
+              minLength: 6,
+            })}
           />
 
           <Button

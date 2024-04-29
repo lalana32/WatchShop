@@ -1,4 +1,4 @@
-import { LockOutlined, Copyright } from '@mui/icons-material';
+import { LockOutlined } from '@mui/icons-material';
 import {
   Container,
   CssBaseline,
@@ -7,12 +7,19 @@ import {
   Typography,
   Grid,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
 } from '@mui/material';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import agent, { User } from '../../api/agent';
 
 const SignUp = () => {
+  const { register, handleSubmit, reset } = useForm<User>(); // Dohvatanje funkcija iz react-hook-form biblioteke
+
+  const signUpSubmit: SubmitHandler<User> = (data) => {
+    agent.Account.register(data); // Poziv funkcije za registraciju korisnika iz agent modula
+    reset();
+  };
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -30,48 +37,46 @@ const SignUp = () => {
         <Typography component='h1' variant='h5'>
           Sign up
         </Typography>
-        <Box component='form' noValidate sx={{ mt: 3 }}>
+        <Box
+          component='form'
+          noValidate
+          onSubmit={handleSubmit(signUpSubmit)}
+          sx={{ mt: 3 }}
+        >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
-                autoComplete='given-name'
-                name='firstName'
+                {...register('username', { required: true, maxLength: 20 })}
                 required
                 fullWidth
-                id='firstName'
-                label='First Name'
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id='lastName'
-                label='Last Name'
-                name='lastName'
-                autoComplete='family-name'
+                id='username'
+                label='Username'
+                name='username'
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                {...register('email', { required: true })}
                 required
                 fullWidth
                 id='email'
                 label='Email Address'
                 name='email'
-                autoComplete='email'
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                {...register('password', {
+                  required: true,
+                  minLength: 6,
+                  maxLength: 20,
+                })} // Povezivanje register funkcije sa input poljem za password
                 required
                 fullWidth
                 name='password'
                 label='Password'
                 type='password'
                 id='password'
-                autoComplete='new-password'
               />
             </Grid>
           </Grid>

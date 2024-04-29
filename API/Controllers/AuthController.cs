@@ -39,25 +39,17 @@ namespace API.Controllers
            
         }
 
-        // [HttpPost("login")]
-        // public async Task<IActionResult> Login([FromBody] LoginRequest model)
-        // {
-        //     // Validacija modela
-        //     if (!ModelState.IsValid)
-        //     {
-        //         return BadRequest(ModelState);
-        //     }
+       [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginUserDto loginUserDto)
+        {
 
-        //     // Prijava korisnika
-        //     var result = await _authService.LoginAsync(model);
+           var result = await  _authService.LoginUser(loginUserDto);
+           if(result is null) return Unauthorized();
 
-        //     if (!result.Success)
-        //     {
-        //         return Unauthorized(result.Message);
-        //     }
+           return Ok(result);
 
-        //     return Ok(result.Data);
-        // }
+
+        }
     }   
 
 }

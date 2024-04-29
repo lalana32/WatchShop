@@ -28,11 +28,29 @@ namespace API.Data
 				var adminUser = new User
 				{
 					UserName = "admin",
-					Email = "admin@example.com"
+					Email = "admin@example.com",
 				};
 
 				await userManager.CreateAsync(adminUser, "Pa$$w0rd");
 				await userManager.AddToRolesAsync(adminUser, new[] { "Member", "Admin"});
+
+				var regularUserCart = new Cart
+				{
+					BuyerId = regularUser.Id,
+					CartItems = new List<CartItem>()
+				};
+				context.Carts.Add(regularUserCart);
+
+	
+
+				var adminUserCart = new Cart
+				{
+					BuyerId = adminUser.Id,
+					CartItems = new List<CartItem>()
+				};
+				context.Carts.Add(adminUserCart);
+
+				await context.SaveChangesAsync();
 
 				
 			}
