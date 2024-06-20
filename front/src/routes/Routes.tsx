@@ -6,6 +6,7 @@ import Contact from './Contact/Contact';
 import Faq from './FAQ/Faq';
 import Cart from './Cart/Cart';
 import AccountPage from './Account/AccountPage';
+import ProductInformation from './ProductMore/ProductInformation';
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
       { path: 'faq', element: <Faq /> },
       { path: 'cart', element: <Cart /> },
       { path: 'account', element: <AccountPage /> },
+      { path: 'catalog/product/:id', element: <ProductInformation /> },
     ],
   },
 ]);

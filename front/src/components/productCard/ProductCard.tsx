@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 
 import './ProductCard.css';
+import { Link } from 'react-router-dom';
 
 interface Product {
   id: number;
@@ -46,9 +47,11 @@ const ProductCard = (product: Product) => {
         <Button className='product-card-button' size='small'>
           Add to cart
         </Button>
-        <Button className='product-more-button' size='small'>
-          More
-        </Button>
+        <Link to={`/catalog/product/${product.id}`}>
+          <Button className='product-more-button' size='small'>
+            More
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );

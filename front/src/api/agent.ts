@@ -20,6 +20,7 @@ const requests = {
 
 const Products = {
   getAll: () => requests.get('/products'),
+  getById: (id: number) => requests.get(`products/${id}`),
 };
 
 const Account = {

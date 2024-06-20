@@ -50,7 +50,9 @@
 }
 
 .product-card-button:hover {
-  background-color: #388e3c !important;
+  background-color: #ffffff !important;
+  color: #388e3c !important;
+  border: solid 1px #388e3c !important;
 }
 
 .product-more-button {

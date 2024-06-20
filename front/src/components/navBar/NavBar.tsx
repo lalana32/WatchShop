@@ -10,13 +10,12 @@ const NavBar = () => {
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <NavLink to={'/'}>
           <img
-            src='photos/icons8-watch-100.png'
+            src='/photos/icons8-watch-100.png'
             style={{ height: 60 }}
             alt='logo'
           />
         </NavLink>
 
-        <NavLink to={'/'}>Home</NavLink>
         <NavLink to={'/catalog'}>Catalog</NavLink>
         <NavLink to={'/contact'}>Contact</NavLink>
         <NavLink to={'/faq'}>FAQ</NavLink>
