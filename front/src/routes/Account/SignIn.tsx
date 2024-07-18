@@ -10,15 +10,24 @@ import {
   Grid,
 } from '@mui/material';
 
-import agent, { User } from '../../api/agent';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { User } from '../../api/agent';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../../slices/authSlice';
+import { AppDispatch } from '../../store';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const { register, handleSubmit, reset } = useForm<User>();
 
-  const logInSubmit: SubmitHandler<User> = async (data) => {
-    var response = await agent.Account.login(data);
-    console.log(response);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const logInSubmit: SubmitHandler<User> = async (data: FieldValues) => {
+    const userLoginResult = await dispatch(userLogin(data));
+    navigate('/catalog');
+    console.log('User login result:', userLoginResult);
+
     reset();
   };
 

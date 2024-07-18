@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Korisnik\\Desktop\\WatchShop\\API\\API.csproj": {}
+    "C:\\Users\\Korisnik\\Desktop\\WatchShop\\api\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Korisnik\\Desktop\\WatchShop\\API\\API.csproj": {
+    "C:\\Users\\Korisnik\\Desktop\\WatchShop\\api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Korisnik\\Desktop\\WatchShop\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\Korisnik\\Desktop\\WatchShop\\api\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Korisnik\\Desktop\\WatchShop\\API\\API.csproj",
+        "projectPath": "C:\\Users\\Korisnik\\Desktop\\WatchShop\\api\\API.csproj",
         "packagesPath": "C:\\Users\\Korisnik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Korisnik\\Desktop\\WatchShop\\API\\obj\\",
+        "outputPath": "C:\\Users\\Korisnik\\Desktop\\WatchShop\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Korisnik\\AppData\\Roaming\\NuGet\\NuGet.Config",

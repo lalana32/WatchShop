@@ -3,8 +3,13 @@ import { AccountCircle } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
+import { useAppSelector } from '../../store';
 
 const NavBar = () => {
+  const { cart } = useAppSelector((state) => state.cart);
+  console.log('Košarica:', cart);
+  const badgeNumber = cart?.cartItems.length || 0;
+
   return (
     <AppBar sx={{ width: 1 / 1, backgroundColor: '#4caf50' }} position='sticky'>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -21,7 +26,7 @@ const NavBar = () => {
         <NavLink to={'/faq'}>FAQ</NavLink>
         <NavLink to={'/cart'}>
           <IconButton aria-label='cart'>
-            <Badge badgeContent={4} color='secondary'>
+            <Badge badgeContent={`${badgeNumber}`} color='secondary'>
               <ShoppingCartIcon style={{ color: 'white' }} />
             </Badge>
           </IconButton>

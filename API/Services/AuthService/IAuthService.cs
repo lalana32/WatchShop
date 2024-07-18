@@ -10,6 +10,7 @@ namespace API.Services
     public interface IAuthService
     {
         Task<User> RegisterUser(RegisterUserDto registerUserDto);
-        Task<string> LoginUser(LoginUserDto loginUserDto);
+        Task<LoginDto> LoginUser(LoginUserDto loginUserDto);
+        string CreateToken(User user);
     }
 }

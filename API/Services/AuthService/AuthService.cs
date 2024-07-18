@@ -11,6 +11,7 @@ using API.Data;
 using API.Dtos;
 using API.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,30 +27,41 @@ namespace API.Services
         private readonly UserManager<User> _userManager;
        
         private readonly IConfiguration _config;
+    
 
         public AuthService(DataContext context, UserManager<User> userManager, IConfiguration config)
         {
             _config = config;
             _userManager = userManager;
             _context = context;
+           
         }
 
 
 
-        public async Task<string> LoginUser(LoginUserDto loginUserDto)
+        public async Task<LoginDto> LoginUser(LoginUserDto loginUserDto)
         {
 
             var user = await _userManager.FindByNameAsync(loginUserDto.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginUserDto.Password))
             {
-                return "Not valid username or password";
+                return null;
             }
 
             // Generisanje JWT tokena
-           var response = CreateToken(user);
-           return response;
-            
-
+           var token = CreateToken(user);
+           var id = user.Id;
+            var cart = await _context.Carts.Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Product).FirstOrDefaultAsync(c => c.BuyerId == id);
+           return new LoginDto
+           {
+            Id = id,
+            Username = user.UserName,
+            Email = user.Email,
+            Token = token,
+            Cart = cart,
+           };
+           
         }
 
         
@@ -89,7 +101,7 @@ namespace API.Services
             }
         }
 
-
+    
 
 
         private async Task<User> GetUserByUsername(string username)
@@ -99,7 +111,7 @@ namespace API.Services
                 }
 
 
-        private string CreateToken(User user)
+        public string CreateToken(User user)
         {
             var claims = new List<Claim>
             {

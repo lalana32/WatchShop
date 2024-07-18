@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "A2XihdeAxaq77Z4Ztnj+KFH0Xbhrncq7l6onDquLb7fW9D4BpgkzB0ebWIB62I+lG9fE/CFLLdS5dlak7KfEaQ==",
+  "dgSpecHash": "wt/lrpZNKAO8d3cVKeDKPEH0Zso6CCC5lMg3lXnTyTjUnVF8xlV8YksSbDvCQTC127lY4EZ4+WrdF5BPgT44Iw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Korisnik\\Desktop\\WatchShop\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\Korisnik\\Desktop\\WatchShop\\api\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Korisnik\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

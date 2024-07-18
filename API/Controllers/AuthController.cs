@@ -5,7 +5,13 @@ using System.Threading.Tasks;
 using API.Dtos;
 using API.Models;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -15,10 +21,14 @@ namespace API.Controllers
     {
 
         private readonly IAuthService _authService;
+        private readonly UserManager<User> _userManager;
+        private readonly DataContext _context;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, UserManager<User> userManager, DataContext context)
         {
             _authService = authService;
+            _userManager = userManager;
+            _context = context;
         }
 
         [HttpPost("register")]
@@ -50,6 +60,30 @@ namespace API.Controllers
 
 
         }
+
+        [Authorize]
+        [HttpGet("currentUser")]
+        public async Task<ActionResult<LoginDto>> GetCurrentUser()
+        {
+            
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null) return NotFound();
+
+             var cart = await _context.Carts.Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Product).FirstOrDefaultAsync(c => c.BuyerId == user.Id);
+
+            var token = _authService.CreateToken(user);
+
+            return new LoginDto
+            {
+                Username = user.UserName,
+                Id = user.Id,
+                Email = user.Email,
+                Cart =  cart,
+                Token = token,
+            };
+        }
+
     }   
 
 }

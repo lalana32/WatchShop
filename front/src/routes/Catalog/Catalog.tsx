@@ -32,8 +32,6 @@ const Catalog = () => {
     fetchProducts();
   }, []);
 
-  console.log(products);
-
   if (loading) {
     return (
       <div>

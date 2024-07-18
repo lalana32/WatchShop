@@ -4,7 +4,7 @@ import HomePage from './HomePage/HomePage';
 import Catalog from './Catalog/Catalog';
 import Contact from './Contact/Contact';
 import Faq from './FAQ/Faq';
-import Cart from './Cart/Cart';
+import Cart from './Cart/CartPage';
 import AccountPage from './Account/AccountPage';
 import ProductInformation from './ProductMore/ProductInformation';
 
