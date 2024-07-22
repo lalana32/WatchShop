@@ -14,6 +14,9 @@ namespace API.Dtos
             CreateMap<Product, GetProductDto>();
             CreateMap<CreateProductDto, Product>();
             CreateMap<UpdateProductDto, Product>();
+            CreateMap<ProductFilteredDto, GetProductDto>();
+            CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
+            
         }
     }
 }

@@ -10,12 +10,6 @@
   box-shadow: 0 0.5rem 1rem rgba(53, 53, 53, 0.927) !important;
 }
 
-.product-card-image {
-  object-fit: cover !important;
-  border-top-left-radius: 0.5rem !important;
-  border-top-right-radius: 0.5rem !important;
-}
-
 .product-card-content {
   padding: 1rem !important;
 }
@@ -28,11 +22,8 @@
 .product-description {
   font-size: 1rem !important;
   color: #555555 !important;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 3;
-  height: 4.5rem;
+
+  height: 3rem;
   line-height: 1.5rem;
 }
 

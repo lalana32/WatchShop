@@ -3,3 +3,9 @@
   grid-template-columns: repeat(3, 1fr); /* Tri kartice u svakom redu */
   grid-gap: 50px; /* Odstojanje između kartica */
 }
+
+/* .mainContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+} */

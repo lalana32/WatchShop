@@ -26,12 +26,70 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetProductDto>>> GetProducts()
+        public async Task<ActionResult<PagedResult<GetProductDto>>> GetProducts([FromQuery] ProductFilteredDto filters)
         {
-            var productList = await _context.Products.ToListAsync();
-            var products = productList.Select(product => _mapper.Map<GetProductDto>(product)).ToList();
-            return products;
+            var query = _context.Products.AsQueryable();
+
+            // Filtriranje po brendovima
+            if (filters.Brands != null && filters.Brands.Any())
+            {
+                var brandFilters = filters.Brands.Select(b => b.ToLower()).ToList();
+                query = query.Where(p => brandFilters.Contains(p.Brand!.ToLower()));
+            }
+
+            // Filtriranje po sex
+            if (!string.IsNullOrEmpty(filters.Sex))
+            {
+                string sexFilter = filters.Sex.ToLower();
+                query = query.Where(p => p.Sex!.ToLower() == sexFilter);
+            }
+
+            if (!string.IsNullOrEmpty(filters.SortBy))
+            {
+                switch (filters.SortBy.ToLower())
+                {
+                    case "price_asc":
+                        query = query.OrderBy(p => p.Price);
+                        break;
+                    case "price_desc":
+                        query = query.OrderByDescending(p => p.Price);
+                        break;
+                    case "name":
+                        query = query.OrderBy(p => p.Name);
+                        break;
+                    default:
+                        // Podrazumevano sortiranje (ako postoji)
+                        break;
+                }
+            }
+
+            var totalProducts = await query.CountAsync();
+
+            filters.Page = filters.Page > 0 ? filters.Page : 1;
+            filters.PageSize = 6;
+
+            var products = await query.Skip((filters.Page - 1)* filters.PageSize).Take(filters.PageSize).ToListAsync();
+
+            var totalPages = (int)Math.Ceiling(totalProducts/(double)filters.PageSize);
+
+            // Preuzmi filtrirane proizvode
+
+
+            
+           var productDtos = _mapper.Map<List<GetProductDto>>(products);
+
+            var pagedResult = new PagedResult<GetProductDto>
+            {
+                Products = productDtos,
+                TotalCount = totalProducts,
+                TotalPages = (int)Math.Ceiling((double)totalProducts / filters.PageSize),
+                CurrentPage = filters.Page,
+                PageSize = filters.PageSize
+            };
+
+            return Ok(pagedResult);
         }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GetProductDto>> GetProductById(int id)
@@ -39,6 +97,13 @@ namespace API.Controllers
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
             var mappedProduct = _mapper.Map<GetProductDto>(product);
             return mappedProduct!;
+        }
+
+        [HttpGet("getBrands")]
+        public async Task<ActionResult<List<string>>> GetBrands()
+        {
+            var brands = await _context.Products.Select(p => p.Brand).Distinct().ToListAsync();
+            return Ok(brands);
         }
 
         // [HttpPost]
@@ -72,5 +137,14 @@ namespace API.Controllers
         //     return Ok();    
 
         // }
+
+
+        // [HttpGet("filtered")]
+        // public async Task<ActionResult<List<GetProductDto>>> GetFilteredProducts([FromQuery] ProductFilteredDto filter)
+        // {
+        //     var products = _context.Products.Where(p => p.Brand == filter.Brand).ToList();
+
+        //     return Ok(products);
+        // } 
     }
 }

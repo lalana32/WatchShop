@@ -22,9 +22,19 @@ interface Product {
 
 const ProductCard = (product: Product) => {
   return (
-    <Card className='product-card' sx={{ maxWidth: '20rem', height: '25rem' }}>
+    <Card
+      className='product-card'
+      sx={{ maxWidth: '20rem', height: '25rem', width: '16rem' }}
+    >
       <CardMedia
-        sx={{ height: '12rem' }}
+        sx={{
+          height: '13rem',
+          objectFit: 'contain', // Koristite contain za punu vidljivost slike
+          width: '100%', // Postavite širinu na 100% za pravilno prikazivanje
+          display: 'flex', // Postavite display na flex za bolje centriranje
+          justifyContent: 'center', // Centrirajte sliku horizontalno
+          alignItems: 'center',
+        }}
         image={product.pictureUrl}
         className='product-card-image'
       />
@@ -40,7 +50,13 @@ const ProductCard = (product: Product) => {
             : product.name}
         </Typography>
         <Typography variant='body2' className='product-description'>
-          {product.description}
+          {product.description.length > 48
+            ? `${product.description.slice(0, 48)} ...`
+            : product.description}
+        </Typography>
+
+        <Typography sx={{ paddingTop: '0.2rem' }}>
+          ${(product.price / 100).toFixed(0)}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'space-evenly' }}>
