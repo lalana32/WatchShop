@@ -13,15 +13,17 @@ const initAxios = axios.create({
 });
 
 const requests = {
-  get: (url: string) => initAxios.get(url).then((response) => response.data),
+  get: (url: string, params?: URLSearchParams) =>
+    initAxios.get(url, { params }).then((response) => response.data),
   post: (url: string, data: any) =>
     initAxios.post(url, data).then((response) => response.data),
   delete: (url: string) => axios.delete(url).then((response) => response.data),
 };
 
 const Products = {
-  getAll: () => requests.get('/products'),
+  getAll: (params?: URLSearchParams) => requests.get('/products', params),
   getById: (id: number) => requests.get(`products/${id}`),
+  getBrands: () => requests.get('/products/getBrands'),
 };
 
 const Account = {
