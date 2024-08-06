@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Data;
 using API.Dtos;
 using API.Models;
@@ -30,14 +26,14 @@ namespace API.Controllers
         {
             var query = _context.Products.AsQueryable();
 
-            // Filtriranje po brendovima
+            
             if (filters.Brands != null && filters.Brands.Any())
             {
                 var brandFilters = filters.Brands.Select(b => b.ToLower()).ToList();
                 query = query.Where(p => brandFilters.Contains(p.Brand!.ToLower()));
             }
 
-            // Filtriranje po sex
+          
             if (!string.IsNullOrEmpty(filters.Sex))
             {
                 string sexFilter = filters.Sex.ToLower();
@@ -58,7 +54,6 @@ namespace API.Controllers
                         query = query.OrderBy(p => p.Name);
                         break;
                     default:
-                        // Podrazumevano sortiranje (ako postoji)
                         break;
                 }
             }
@@ -72,7 +67,7 @@ namespace API.Controllers
 
             var totalPages = (int)Math.Ceiling(totalProducts/(double)filters.PageSize);
 
-            // Preuzmi filtrirane proizvode
+           
 
 
             
@@ -106,45 +101,62 @@ namespace API.Controllers
             return Ok(brands);
         }
 
-        // [HttpPost]
-        // public ActionResult<List<GetProductDto>> AddProduct(CreateProductDto newProductDto)
-        // {
-        //     var product = _mapper.Map<Product>(newProductDto);
-        //     products.Add(product);
-        //     return Ok(products);
-        // }
+        [HttpPost]
+        public async Task<ActionResult<GetProductDto>> AddProduct([FromForm] CreateProductDto newProductDto)
+        {
+            if (newProductDto.Picture != null && newProductDto.Picture.Length > 0)
+            {
+              
+                var folderPath = Path.Combine("wwwroot", "images");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
 
-        // [HttpPut]
-        // public ActionResult<GetProductDto> UpdateProduct(UpdateProductDto updatedProduct)
-        // {
-        //     var selectedProduct = products.FirstOrDefault(x => x.Id == updatedProduct.Id);
-        //     if (selectedProduct == null) return NotFound();
+               
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newProductDto.Picture.FileName);
+                var filePath = Path.Combine(folderPath, fileName);
 
-        //     selectedProduct.Name = updatedProduct.Name;
-        //     selectedProduct.Brand = updatedProduct.Brand;
-        //     selectedProduct.Sex = updatedProduct.Sex;
+          
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await newProductDto.Picture.CopyToAsync(stream);
+                }
 
-        //     return Ok(selectedProduct);
-        // }
+             
+                var product = _mapper.Map<Product>(newProductDto);
+                var request = HttpContext.Request;
+                var baseUrl = $"{request.Scheme}://{request.Host}{request.PathBase}";
+                product.PictureUrl = Path.Combine(baseUrl, "images", fileName).Replace("\\", "/");
 
-        // [HttpDelete("{id}")] 
-        // public ActionResult DeleteProduct(int id)
-        // {
-        //     var selectedProduct = products.FirstOrDefault(x => x.Id == id);
-        //     if(selectedProduct == null) return NotFound();
+                await _context.Products.AddAsync(product);
+                await _context.SaveChangesAsync();
 
-        //     products.Remove(selectedProduct);
-        //     return Ok();    
+                var productDto = _mapper.Map<GetProductDto>(product);
+                return Ok(productDto);
+            }
 
-        // }
+            return BadRequest("No picture uploaded.");
+        }
 
+       
 
-        // [HttpGet("filtered")]
-        // public async Task<ActionResult<List<GetProductDto>>> GetFilteredProducts([FromQuery] ProductFilteredDto filter)
-        // {
-        //     var products = _context.Products.Where(p => p.Brand == filter.Brand).ToList();
+        [HttpDelete("{id}")] 
+        public async Task<ActionResult> DeleteProduct(int id)
+        {
+           var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
 
-        //     return Ok(products);
-        // } 
+           if (product == null)
+            {
+                return NotFound();
+            }
+
+           _context.Products.Remove(product);    
+
+           await _context.SaveChangesAsync();
+
+           return Ok();
+        }
+
     }
 }

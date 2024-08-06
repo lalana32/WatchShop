@@ -24,10 +24,8 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const logInSubmit: SubmitHandler<User> = async (data: FieldValues) => {
-    const userLoginResult = await dispatch(userLogin(data));
+    await dispatch(userLogin(data));
     navigate('/catalog');
-    console.log('User login result:', userLoginResult);
-
     reset();
   };
 

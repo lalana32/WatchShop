@@ -9,8 +9,11 @@ import {
 
 import './ProductCard.css';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addItemToCartAsync } from '../../slices/cartSlice';
+import { AppDispatch, useAppSelector } from '../../store';
 
-interface Product {
+export interface Product {
   id: number;
   name: string;
   brand: string;
@@ -21,6 +24,25 @@ interface Product {
 }
 
 const ProductCard = (product: Product) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useAppSelector((state) => state.auth);
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      alert('Samo ulogovani korisnici mogu dodavati u korpu.');
+      return;
+    }
+    if (product) {
+      try {
+        await dispatch(addItemToCartAsync(product.id));
+      } catch (error) {
+        console.error('Failed to add item to cart:', error);
+      }
+    } else {
+      console.error('No product available to add to cart');
+    }
+  };
+
   return (
     <Card
       className='product-card'
@@ -29,10 +51,10 @@ const ProductCard = (product: Product) => {
       <CardMedia
         sx={{
           height: '13rem',
-          objectFit: 'contain', // Koristite contain za punu vidljivost slike
-          width: '100%', // Postavite širinu na 100% za pravilno prikazivanje
-          display: 'flex', // Postavite display na flex za bolje centriranje
-          justifyContent: 'center', // Centrirajte sliku horizontalno
+          objectFit: 'contain',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
           alignItems: 'center',
         }}
         image={product.pictureUrl}
@@ -60,7 +82,11 @@ const ProductCard = (product: Product) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'space-evenly' }}>
-        <Button className='product-card-button' size='small'>
+        <Button
+          className='product-card-button'
+          size='small'
+          onClick={handleAddToCart}
+        >
           Add to cart
         </Button>
         <Link to={`/catalog/product/${product.id}`}>

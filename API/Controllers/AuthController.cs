@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Dtos;
 using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
@@ -66,21 +60,32 @@ namespace API.Controllers
         public async Task<ActionResult<LoginDto>> GetCurrentUser()
         {
             
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var userName = User.Identity?.Name;
+            if (string.IsNullOrEmpty(userName))
+            {
+                return BadRequest("User is not authenticated");
+            }
+
+            var user = await _userManager.FindByNameAsync(userName);
             if (user == null) return NotFound();
 
-             var cart = await _context.Carts.Include(c => c.CartItems)
+             var cart = await _context.Carts.Include(c => c.CartItems!)
                 .ThenInclude(ci => ci.Product).FirstOrDefaultAsync(c => c.BuyerId == user.Id);
 
-            var token = _authService.CreateToken(user);
+             if (cart == null) return NotFound();
+
+            var token = await _authService.CreateToken(user);
+
+            var roles = await _userManager.GetRolesAsync(user);
 
             return new LoginDto
             {
-                Username = user.UserName,
+                Username = user.UserName,   
                 Id = user.Id,
                 Email = user.Email,
                 Cart =  cart,
                 Token = token,
+                Roles = roles.ToList(),
             };
         }
 

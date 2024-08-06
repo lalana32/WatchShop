@@ -1,6 +1,6 @@
 import { AccordionSummary, AccordionDetails, Grid } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
-import { BorderColor, ExpandMore } from '@mui/icons-material';
+import { ExpandMore } from '@mui/icons-material';
 
 const Faq = () => {
   return (
@@ -9,216 +9,72 @@ const Faq = () => {
         container
         sx={{
           display: 'flex',
-          justifyContent: 'space-evenly',
+          justifyContent: 'center',
           padding: '4rem',
           flexDirection: 'row',
+          alignItems: 'center',
         }}
       >
-        <Grid item>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              fontFamily: 'Sedan, sans-serif',
-            }}
-          >
-            <br />
-            <h1 style={{ fontSize: '3rem', margin: '0' }}>Frequently</h1>
-            <br />
-            <h1 style={{ fontSize: '3rem', margin: '0' }}>Asked</h1>
-            <br />
-            <h1 style={{ fontSize: '3rem', margin: '0' }}>Questions</h1>
+        <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'space-between' }}>
+          <div style={{ marginBottom: '2rem' }}>
+            <h1 style={{ fontSize: '3rem', margin: '0', color: '#333', fontFamily: 'Roboto, sans-serif' }}>
+              Frequently Asked Questions
+            </h1>
           </div>
         </Grid>
-        <Grid item>
-          <img src='/photos/FAQ.png' alt='faq' style={{ height: '16rem' }} />
+        <Grid item xs={12} md={6}>
+          <img
+            src='/photos/FAQ.png'
+            alt='faq'
+            style={{
+              height: '20rem',
+              borderRadius: '8px',
+              objectFit: 'cover',
+            }}
+          />
         </Grid>
       </Grid>
+
       <Grid
-        style={{
-          textAlign: 'center',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: 'auto',
-        }}
+        container
+        spacing={2}
+        sx={{ maxWidth: '800px', width: '100%', margin: 'auto' }}
       >
-        <Accordion
-          style={{
-            width: '70%',
-            borderTop: '1px solid black',
-            borderBottom: 'none',
-            backgroundColor: '#eee9e9',
-            borderRadius: 0,
-            borderLeft: 'none',
-            borderRight: 'none',
-            boxShadow: 'none',
-            margin: 'auto',
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls='panel1-content'
-            id='panel1-header'
-          >
-            <h2>
-              Can I visit your physical store to see your products in person?
-            </h2>
-          </AccordionSummary>
-          <AccordionDetails>
-            <h4>
-              Yes, we have a physical store where you can visit and browse our
-              product offerings in person. Our friendly staff will be happy to
-              assist you and provide any information you may need.
-            </h4>
-          </AccordionDetails>
-        </Accordion>
-
-        <Accordion
-          style={{
-            width: '70%',
-            borderTop: '1px solid black',
-            borderBottom: 'none',
-            backgroundColor: '#eee9e9',
-            borderRadius: 0,
-            borderLeft: 'none',
-            borderRight: 'none',
-            boxShadow: 'none',
-            margin: 'auto',
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls='panel1-content'
-            id='panel1-header'
-          >
-            <h2>Do you offer warranty on your products?</h2>
-          </AccordionSummary>
-          <AccordionDetails>
-            <h4>
-              Yes, we offer a warranty on all our products to ensure your
-              satisfaction. Our warranty coverage varies depending on the
-              product, so please check the warranty terms and conditions for
-              specific details.
-            </h4>
-          </AccordionDetails>
-        </Accordion>
-
-        <Accordion
-          style={{
-            width: '70%',
-            borderTop: '1px solid black',
-            borderBottom: 'none',
-            backgroundColor: '#eee9e9',
-            borderRadius: 0,
-            borderLeft: 'none',
-            borderRight: 'none',
-            boxShadow: 'none',
-            margin: 'auto',
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls='panel1-content'
-            id='panel1-header'
-          >
-            <h2>How do I contact customer support?</h2>
-          </AccordionSummary>
-          <AccordionDetails>
-            <h4>
-              You can contact our customer support team through various
-              channels, including email, phone, or live chat. Visit our contact
-              us page for more information on how to reach us.
-            </h4>
-          </AccordionDetails>
-        </Accordion>
-
-        <Accordion
-          style={{
-            width: '70%',
-            borderTop: '1px solid black',
-            borderBottom: 'none',
-            backgroundColor: '#eee9e9',
-            borderRadius: 0,
-            borderLeft: 'none',
-            borderRight: 'none',
-            boxShadow: 'none',
-            margin: 'auto',
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls='panel1-content'
-            id='panel1-header'
-          >
-            <h2>Are your products water-resistant?</h2>
-          </AccordionSummary>
-          <AccordionDetails>
-            <h4>
-              Yes, many of our products are water-resistant to varying degrees.
-              However, the level of water resistance may differ between models,
-              so we recommend checking the product specifications for detailed
-              information.
-            </h4>
-          </AccordionDetails>
-        </Accordion>
-
-        <Accordion
-          style={{
-            width: '70%',
-            borderTop: '1px solid black',
-            borderBottom: 'none',
-            backgroundColor: '#eee9e9',
-            borderRadius: 0,
-            borderLeft: 'none',
-            borderRight: 'none',
-            boxShadow: 'none',
-            margin: 'auto',
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls='panel1-content'
-            id='panel1-header'
-          >
-            <h2>How much does shipping cost?</h2>
-          </AccordionSummary>
-          <AccordionDetails>
-            <h4>
-              Our shipping service is entirely free of charge! We cover all
-              shipping expenses to ensure your order reaches you conveniently
-              and affordably.
-            </h4>
-          </AccordionDetails>
-        </Accordion>
-
-        <Accordion
-          style={{
-            width: '70%',
-            borderTop: '1px solid black',
-            borderBottom: 'none',
-            backgroundColor: '#eee9e9',
-            borderRadius: 0,
-            borderLeft: 'none',
-            borderRight: 'none',
-            boxShadow: 'none',
-            margin: 'auto',
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls='panel1-content'
-            id='panel1-header'
-          >
-            <h2>Do you offer international shipping?</h2>
-          </AccordionSummary>
-          <AccordionDetails>
-            <h4>
-              Yes, we offer international shipping to many countries worldwide.
-              Please check our shipping policy for more details.
-            </h4>
-          </AccordionDetails>
-        </Accordion>
+        {[
+          { question: 'Can I visit your physical store to see your products in person?', answer: 'Yes, we have a physical store where you can visit and browse our product offerings in person. Our friendly staff will be happy to assist you and provide any information you may need.' },
+          { question: 'Do you offer warranty on your products?', answer: 'Yes, we offer a warranty on all our products to ensure your satisfaction. Our warranty coverage varies depending on the product, so please check the warranty terms and conditions for specific details.' },
+          { question: 'How do I contact customer support?', answer: 'You can contact our customer support team through various channels, including email, phone, or live chat. Visit our contact us page for more information on how to reach us.' },
+          { question: 'Are your products water-resistant?', answer: 'Yes, many of our products are water-resistant to varying degrees. However, the level of water resistance may differ between models, so we recommend checking the product specifications for detailed information.' },
+          { question: 'How much does shipping cost?', answer: 'Our shipping service is entirely free of charge! We cover all shipping expenses to ensure your order reaches you conveniently and affordably.' },
+          { question: 'Do you offer international shipping?', answer: 'Yes, we offer international shipping to many countries worldwide. Please check our shipping policy for more details.' }
+        ].map((item, index) => (
+          <Grid item xs={12} key={index}>
+            <Accordion
+              sx={{
+                width: '100%',
+                borderRadius: '8px',
+                backgroundColor: '#f9f9f9',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                marginBottom: '1rem',
+                '&:before': {
+                  display: 'none',
+                },
+              }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMore sx={{ color: 'purple' }} />}
+                aria-controls={`panel${index + 1}-content`}
+                id={`panel${index + 1}-header`}
+                
+              >
+                <h2 style={{ fontSize: '1.2rem', color: '#333' }}>{item.question}</h2>
+              </AccordionSummary >
+              <AccordionDetails>
+                <p style={{ fontSize: '1rem', color: '#555' }}>{item.answer}</p>
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+        ))}
       </Grid>
     </>
   );

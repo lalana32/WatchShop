@@ -10,6 +10,8 @@ interface User {
   username: string;
   email: string;
   id: string;
+  token: string;
+  roles?: string[];
 }
 
 export interface AuthState {
@@ -55,7 +57,6 @@ export const currentUser = createAsyncThunk<User>(
   }
 );
 
-// Auth slice
 export const authSlice = createSlice({
   name: 'auth',
   initialState,

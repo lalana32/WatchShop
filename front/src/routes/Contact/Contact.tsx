@@ -6,9 +6,7 @@ const Contact = () => {
   return (
     <div style={{ marginBottom: 0 }}>
       <Grid container spacing={3}>
-        {/* Text on the left */}
         <Grid item xs={12} md={6} style={{ margin: 'auto' }}>
-          {/* Add your text content here */}
           <div style={{ color: '#4caf50' }}>
             <h2 style={{ fontSize: '2rem' }}>Contact Us</h2>
             <p style={{ fontSize: '1.2rem' }}>
@@ -22,7 +20,7 @@ const Contact = () => {
               Address: 123 Main Street, City, Country <br />
               Postal Code: 12345
             </p>
-            {/* Add links to social media profiles */}
+
             <div style={{ marginTop: '20px' }}>
               <IconButton
                 href='https://www.facebook.com/'
@@ -51,9 +49,8 @@ const Contact = () => {
             </div>
           </div>
         </Grid>
-        {/* Map on the right */}
+
         <Grid item xs={12} md={6}>
-          {/* Add your map component here */}
           <div
             style={{
               padding: '20px',
@@ -63,7 +60,6 @@ const Contact = () => {
               alignItems: 'center',
             }}
           >
-            {/* Replace this with your map component */}
             <Map />
           </div>
         </Grid>
@@ -78,9 +74,8 @@ const Contact = () => {
             height: '7rem',
           }}
         >
-          {/* Vaš footer sadržaj */}
           <p>Opening Hours: Monday - Friday, 9:00 AM - 5:00 PM</p>
-          {/* Motivacijska poruka */}
+
           <p>Your Journey Through Time Starts Here.</p>
           <p>© 2024 Your Company. All rights reserved.</p>
         </div>
