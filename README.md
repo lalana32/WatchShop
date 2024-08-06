@@ -15,13 +15,13 @@ Watch Shop is a watch store that allows users to browse, filter, sort, and purch
 
 ### Backend
 
-1. Navigate to the `API` folder.
+1. Navigate to the `API` directoy.
 2. Run the backend with the following command:
    dotnet watch run
 
 ### Frontend
 
-1. Navigate to the front directory.
+1. Navigate to the `front` directory.
 2. Install the necessary dependencies with the following command:
    npm i
 3. Start the frontend with the following command:
