@@ -6,11 +6,11 @@ Watch Shop is a watch store that allows users to browse, filter, sort, and purch
 
 - **Backend:** .NET
 - **Frontend:** React, Redux, Material-UI
+- - **Database:** SQLite
   - **.NET:** Used for creating a robust and scalable backend API to manage data and business logic.
   - **React:** Utilized for building a dynamic and responsive user interface.
   - **Redux:** Employed for state management, ensuring a predictable state container for the application.
   - **Material-UI:** Provides a set of customizable React components for a sleek and modern design.
-- **Database:** SQLite
   - **SQLite:** Used for lightweight and easy-to-configure database management.
 
 ## Installation
