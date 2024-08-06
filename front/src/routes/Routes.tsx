@@ -7,6 +7,10 @@ import Faq from './FAQ/Faq';
 import Cart from './Cart/CartPage';
 import AccountPage from './Account/AccountPage';
 import ProductInformation from './ProductMore/ProductInformation';
+import Checkout from './Checkout/Checkout';
+import SignIn from './Account/SignIn';
+import Inventory from './Inventory/Inventory';
+import AddProduct from './AddProduct/AddProduct';
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +24,10 @@ export const router = createBrowserRouter([
       { path: 'cart', element: <Cart /> },
       { path: 'account', element: <AccountPage /> },
       { path: 'catalog/product/:id', element: <ProductInformation /> },
+      { path: 'checkout', element: <Checkout /> },
+      { path: 'sign-in', element: <SignIn /> },
+      { path: 'inventory', element: <Inventory /> },
+      { path: 'add-product', element: <AddProduct /> },
     ],
   },
 ]);

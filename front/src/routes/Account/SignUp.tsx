@@ -8,16 +8,29 @@ import {
   Grid,
   TextField,
   Button,
+  Alert,
+  Snackbar,
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import agent, { User } from '../../api/agent';
+import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 
 const SignUp = () => {
-  const { register, handleSubmit, reset } = useForm<User>(); // Dohvatanje funkcija iz react-hook-form biblioteke
+  const { register, handleSubmit, reset } = useForm<User>();
 
-  const signUpSubmit: SubmitHandler<User> = (data) => {
-    agent.Account.register(data); // Poziv funkcije za registraciju korisnika iz agent modula
+  const signUpSubmit: SubmitHandler<User> = async (data) => {
+    await agent.Account.register(data);
+    setSnackbarMessage('You registered successfully!');
+    setOpenSnackbar(true);
     reset();
+  };
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -70,7 +83,7 @@ const SignUp = () => {
                   required: true,
                   minLength: 6,
                   maxLength: 20,
-                })} // Povezivanje register funkcije sa input poljem za password
+                })}
                 required
                 fullWidth
                 name='password'
@@ -80,6 +93,7 @@ const SignUp = () => {
               />
             </Grid>
           </Grid>
+
           <Button
             type='submit'
             fullWidth
@@ -89,8 +103,27 @@ const SignUp = () => {
           >
             Sign Up
           </Button>
+          <Box sx={{ mt: 2 }}>
+            <Typography variant='body2' align='center'>
+              Already have an account? <NavLink to='/sign-in'>Sign In</NavLink>
+            </Typography>
+          </Box>
         </Box>
       </Box>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarMessage.includes('Error') ? 'error' : 'success'}
+          variant='filled'
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

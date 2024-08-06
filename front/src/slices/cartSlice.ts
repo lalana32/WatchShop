@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import agent from '../api/agent';
 
-interface Product {
+export interface Product {
   id: number;
   name: string;
   brand: string;
@@ -47,6 +47,30 @@ export const fetchCartAsync = createAsyncThunk<Cart>(
   }
 );
 
+export const addItemToCartAsync = createAsyncThunk<Cart, number>(
+  'cart/addItemToCartAsync',
+  async (data, thunkAPI) => {
+    try {
+      return await agent.Cart.addItemToCart(data);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
+
+export const removeItemFromCartAsync = createAsyncThunk<Cart, number>(
+  'cart/removeItemFromCartAsync',
+  async (data, thunkAPI) => {
+    try {
+      const response = await agent.Cart.removeItemfromCart(data);
+      thunkAPI.dispatch(fetchCartAsync());
+      return response;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
+
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -70,6 +94,26 @@ export const cartSlice = createSlice({
         state.status = 'succeeded';
       })
       .addCase(fetchCartAsync.rejected, (state, action) => {
+        state.status = 'failed';
+      })
+      .addCase(addItemToCartAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(addItemToCartAsync.fulfilled, (state, action) => {
+        state.cart = action.payload;
+        state.status = 'succeeded';
+      })
+      .addCase(addItemToCartAsync.rejected, (state, action) => {
+        state.status = 'failed';
+      })
+      .addCase(removeItemFromCartAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(removeItemFromCartAsync.fulfilled, (state, action) => {
+        state.cart = action.payload;
+        state.status = 'succeeded';
+      })
+      .addCase(removeItemFromCartAsync.rejected, (state, action) => {
         state.status = 'failed';
       });
   },

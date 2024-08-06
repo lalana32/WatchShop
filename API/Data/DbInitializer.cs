@@ -1,18 +1,29 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
     public class DbInitializer
     {
 
-        public static async Task Initialize(DataContext context, UserManager<User> userManager)
+        public static async Task Initialize(DataContext context, UserManager<User> userManager, 
+		RoleManager<IdentityRole> roleManager)
         {
+
+
+			if (!roleManager.Roles.Any())
+			{
+				var roles = new List<IdentityRole>
+				{
+					new IdentityRole("Member"),
+					new IdentityRole("Admin")
+				};
+
+				foreach (var role in roles)
+				{
+					await roleManager.CreateAsync(role);
+				}
+			}
 
 			if(!userManager.Users.Any())
 			{
@@ -58,7 +69,7 @@ namespace API.Data
 
             if (context.Products.Any())
             {
-                return;   // Baza je već inicijalizovana
+                return;   
             }
 
 
@@ -181,7 +192,7 @@ new Product
 	Name = "Seiko Conceptual",
 	Description = "Experience the allure of the ocean with this nautical-inspired watch. Featuring a navy blue dial and anchor motif, this watch captures the spirit of maritime adventure, making it the perfect accessory for seaside escapades.",
 	Price = 25000,
-	PictureUrl = "photos/products/ladies-seiko-conceptual",
+	PictureUrl = "photos/products/ladies-seiko-conceptual.jpg",
 	Brand = "Seiko",
 	Sex = "Female",
 },

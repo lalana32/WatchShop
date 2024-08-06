@@ -1,20 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
 using API.Data;
 using API.Dtos;
 using API.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -42,17 +31,20 @@ namespace API.Services
         public async Task<LoginDto> LoginUser(LoginUserDto loginUserDto)
         {
 
-            var user = await _userManager.FindByNameAsync(loginUserDto.Username);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, loginUserDto.Password))
+            var user = await _userManager.FindByNameAsync(loginUserDto.Username!);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginUserDto.Password!))
             {
-                return null;
+                throw new UnauthorizedAccessException("Invalid username or password.");
             }
 
-            // Generisanje JWT tokena
-           var token = CreateToken(user);
+            
+           var token = await CreateToken(user);
            var id = user.Id;
-            var cart = await _context.Carts.Include(c => c.CartItems)
+            var cart = await _context.Carts.Include(c => c.CartItems!)
                 .ThenInclude(ci => ci.Product).FirstOrDefaultAsync(c => c.BuyerId == id);
+
+            var roles = await _userManager.GetRolesAsync(user);
+
            return new LoginDto
            {
             Id = id,
@@ -60,6 +52,7 @@ namespace API.Services
             Email = user.Email,
             Token = token,
             Cart = cart,
+            Roles = roles.ToList(),
            };
            
         }
@@ -70,7 +63,7 @@ namespace API.Services
         {
              try
             {
-                var existingUser = await GetUserByUsername(registerUserDto.Username);
+                var existingUser = await GetUserByUsername(registerUserDto.Username!);
                 if(existingUser != null)
                 {
                     return null!;
@@ -82,7 +75,7 @@ namespace API.Services
                     Email = registerUserDto.Email,
                 };
 
-                await _userManager.CreateAsync(newUser, registerUserDto.Password);
+                await _userManager.CreateAsync(newUser, registerUserDto.Password!);
                 await _userManager.AddToRoleAsync(newUser, "Member");
 
                 var cart = new Cart{BuyerId = newUser.Id};
@@ -95,8 +88,8 @@ namespace API.Services
           
             catch (Exception ex)
             {
-                
-                return null!;
+                Console.Error.WriteLine(ex);
+                 return null!;
                 
             }
         }
@@ -111,13 +104,21 @@ namespace API.Services
                 }
 
 
-        public string CreateToken(User user)
+        public async Task<string> CreateToken(User user)
         {
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName!),
             };
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            foreach (var role in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var appSettingsToken = _config.GetSection("AppSettings:Token").Value;
             if(appSettingsToken is null) throw new Exception("App settings token is null");
@@ -127,11 +128,14 @@ namespace API.Services
 
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
+            
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds,
+            
             };
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();

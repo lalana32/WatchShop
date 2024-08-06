@@ -2,9 +2,8 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Postavite ikonu markera (opcionalno)
 const customMarkerIcon = new L.Icon({
-  iconUrl: 'photos/marker.png', // Putanja do ikone markera
+  iconUrl: 'photos/marker.png',
   iconSize: [42, 44],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -12,7 +11,6 @@ const customMarkerIcon = new L.Icon({
 });
 
 const Map = () => {
-  // Postavite početne koordinate i razinu zumiranja
   const position: [number, number] = [43.8236072, 18.3759143];
   const zoomLevel = 16;
 
@@ -25,15 +23,12 @@ const Map = () => {
         width: '100%',
       }}
     >
-      {/* Dodajte ploču sa kartom */}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
 
-      {/* Dodajte marker na kartu */}
       <Marker position={position} icon={customMarkerIcon}>
-        {/* Dodajte iskačući prozor */}
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>

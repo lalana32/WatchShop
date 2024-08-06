@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import agent from '../../api/agent';
 import ProductCard from '../../components/productCard/ProductCard';
 import './Catalog.styles.css';
@@ -17,7 +17,7 @@ import {
   Pagination,
 } from '@mui/material';
 
-interface Product {
+export interface Product {
   id: number;
   name: string;
   brand: string;
@@ -141,7 +141,7 @@ const Catalog = () => {
         ))}
       </Grid>
       <Grid item xs={12} md={3}>
-        <Paper sx={{ padding: '2rem' }}>
+        <Paper sx={{ padding: '2rem', borderRadius: '1rem' }}>
           <Typography
             variant='h5'
             sx={{ marginBottom: '1rem', fontWeight: 'bold' }}
