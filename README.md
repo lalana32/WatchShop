@@ -25,7 +25,7 @@ Watch Shop is a watch store that allows users to browse, filter, sort, and purch
 
 1. Navigate to the `front` directory.
 2. Install the necessary dependencies with the following command:
-   `npm i`
+   `npm install --legacy-peer-deps`
 3. Start the frontend with the following command:
     `npm start`
 
